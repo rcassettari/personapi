@@ -3,6 +3,7 @@ package br.com.dio.personapi.service;
 import br.com.dio.personapi.dto.MessageResponseDTO;
 import br.com.dio.personapi.dto.request.PersonDTO;
 import br.com.dio.personapi.entity.Person;
+import br.com.dio.personapi.exception.PersonNotFoundException;
 import br.com.dio.personapi.mapper.PersonMapper;
 import br.com.dio.personapi.repository.PersonRepository;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,14 @@ public class PersonService {
                 .stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public PersonDTO findById(Long id) throws  PersonNotFoundException {
+
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+
+        return personMapper.toDTO(person);
     }
 }
 
