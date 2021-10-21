@@ -1,4 +1,4 @@
-<h2>API REST de gerenciamento de pessoas com Spring Boot</h2>
+git <h2>API REST de gerenciamento de pessoas com Spring Boot</h2>
 
 Foi desenvolvida uma API REST para o gerenciamento de pessoas de uma empresa, API criada com o Spring Boot.
 
@@ -53,7 +53,7 @@ Abaixo, seguem links de referencia usados no projeto :
 * [Documentação oficial do Lombok](https://projectlombok.org/)
 * [Documentação oficial do Map Struct](https://mapstruct.org/)
 * [Referência para o padrão arquitetural REST](https://restfulapi.net/)
-
+* [Referência para o springdoc-openapi](https://springdoc.org/)
 
 
 
