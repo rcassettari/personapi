@@ -24,11 +24,11 @@ public class PersonService {
 
     private MessageHelper messageHelper;
 
-    public MessageResponseDTO createPerson(PersonDTO personDTO)
+    public PersonDTO createPerson(PersonDTO personDTO)
     {
         Person personToBeSaved = personMapper.toModel(personDTO);
         Person savedPerson = personRepository.save(personToBeSaved);
-        return createMessageResponseDTO(savedPerson.getId(), messageHelper.getMessage("PersonService.createdPerson"));
+        return personMapper.toDTO(savedPerson);
     }
 
     public List<PersonDTO> listAll() {
@@ -49,11 +49,11 @@ public class PersonService {
         personRepository.deleteById(id);
     }
 
-    public MessageResponseDTO updateById(Long id, PersonDTO personDTO) throws PersonNotFoundException {
+    public PersonDTO updateById(Long id, PersonDTO personDTO) throws PersonNotFoundException {
         verifyIfExists(id);
         Person personToUpdate = personMapper.toModel(personDTO);
         Person updatedPerson = personRepository.save(personToUpdate);
-        return createMessageResponseDTO(updatedPerson.getId(), messageHelper.getMessage("PersonService.updatedPerson"));
+        return personMapper.toDTO(updatedPerson);
     }
 
     private MessageResponseDTO createMessageResponseDTO(Long id, String message) {

@@ -17,6 +17,14 @@ public class PhoneUtils {
                 .build();
     }
 
+    public static PhoneDTO createExpectedPhoneDTO() {
+        return PhoneDTO.builder()
+                .id(PHONE_ID)
+                .number(PHONE_NUMBER)
+                .type(PHONE_TYPE)
+                .build();
+    }
+
     public static Phone createFakeEntity() {
         return Phone.builder()
                 .id(PHONE_ID)

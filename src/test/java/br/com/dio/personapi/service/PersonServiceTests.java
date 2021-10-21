@@ -49,13 +49,11 @@ public class PersonServiceTests {
     void testGivenPersonDTOThenReturnSavedMessage() {
         PersonDTO personDTO = createFakeDTO();
         Person expectedSavedPerson = createFakeEntity();
+        PersonDTO expectedSavedPersonDTO = createFakeExpectedPersonDTO();
 
         when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
-
-        MessageResponseDTO expectedSuccessMessage = createExpectedMessageResponse(expectedSavedPerson.getId());
-        MessageResponseDTO successMessage = personService.createPerson(personDTO);
-
-        assertEquals(expectedSuccessMessage, successMessage);
+        PersonDTO savedPerson = personService.createPerson(personDTO);
+        assertEquals(expectedSavedPersonDTO, savedPerson);
     }
 
     private MessageResponseDTO createExpectedMessageResponse(Long id) {

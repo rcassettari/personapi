@@ -24,6 +24,17 @@ public class PersonUtils {
                 .build();
     }
 
+    public static PersonDTO createFakeExpectedPersonDTO() {
+        return PersonDTO.builder()
+                .id(PERSON_ID)
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME)
+                .cpf(CPF_NUMBER)
+                .birthDate(LocalDate.parse("2010-10-01"))
+                .phones(Collections.singletonList(PhoneUtils.createExpectedPhoneDTO()))
+                .build();
+    }
+
     public static Person createFakeEntity() {
         return Person.builder()
                 .id(PERSON_ID)

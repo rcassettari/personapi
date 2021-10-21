@@ -1,6 +1,5 @@
 package br.com.dio.personapi.controller;
 
-import br.com.dio.personapi.dto.response.MessageResponseDTO;
 import br.com.dio.personapi.dto.request.PersonDTO;
 import br.com.dio.personapi.exception.PersonNotFoundException;
 import br.com.dio.personapi.service.PersonService;
@@ -33,7 +32,7 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus( HttpStatus.CREATED )
-    public MessageResponseDTO createPerson(@RequestBody @Valid PersonDTO personDTO) {
+    public PersonDTO createPerson(@RequestBody @Valid PersonDTO personDTO) {
         return personService.createPerson(personDTO);
     }
 
@@ -45,7 +44,7 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public MessageResponseDTO updateById( @PathVariable Long id , @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException
+    public PersonDTO updateById(@PathVariable Long id , @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException
     {
         return personService.updateById(id, personDTO);
     }
