@@ -9,6 +9,12 @@ Foram feitos e abordados os seguintes tópicos:
 * Desenvolvimento de operações de gerenciamento de usuários (Cadastro, leitura, atualização e remoção de pessoas de um sistema).
 * Relação de cada uma das operações acima com o padrão arquitetural REST;
 * Desenvolvimento de testes unitários para validação das funcionalidades
+* Visualização das funcionalidades do API usando o Open-API:
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
 * Implantação do sistema na nuvem através do Heroku
 
 Para executar o projeto no terminal, digite o seguinte comando:
