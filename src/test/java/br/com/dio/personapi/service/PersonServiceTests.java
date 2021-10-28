@@ -17,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static br.com.dio.personapi.utils.PersonUtils.*;
@@ -95,6 +97,19 @@ public class PersonServiceTests {
                 .thenReturn(Optional.ofNullable(any(Person.class)));
 
         assertThrows(PersonNotFoundException.class, () -> personService.findById(invalidPersonId));
+    }
+
+    @Test
+    void testGivenNoDataThenReturnAllPeopleRegistered() {
+        List<Person> expectedRegisteredPeople = Collections.singletonList(createFakeEntity());
+        PersonDTO personDTO = createFakeExpectedPersonDTO();
+
+        when(personRepository.findAll()).thenReturn(expectedRegisteredPeople);
+
+        List<PersonDTO> expectedPeopleDTOList = personService.listAll();
+
+        assertFalse(expectedPeopleDTOList.isEmpty());
+        assertEquals(expectedPeopleDTOList.get(0).getId(), personDTO.getId());
     }
 
     private MessageResponseDTO createExpectedMessageResponse(Long id) {
