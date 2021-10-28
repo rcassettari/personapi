@@ -5,6 +5,7 @@ import br.com.dio.personapi.dto.request.PersonDTO;
 import br.com.dio.personapi.entity.Person;
 import br.com.dio.personapi.helper.MessageHelper;
 import br.com.dio.personapi.repository.PersonRepository;
+import br.com.dio.personapi.service.impl.PersonServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +36,7 @@ public class PersonServiceTests {
     public static void setUp() throws Exception {
         messageSource = messageSource();
         messageHelper = new MessageHelper( messageSource);
-        personService = new PersonService(personRepository,messageHelper);
+        personService = new PersonServiceImpl(personRepository,messageHelper);
     }
 
     private static MessageSource messageSource() {
