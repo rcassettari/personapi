@@ -161,6 +161,16 @@ public class PersonServiceTests {
         verify(personRepository, times(1)).deleteById(deletedPersonId);
     }
 
+    @Test
+    void testGivenInvalidPersonIdThenThrowExceptionOnDelete() throws PersonNotFoundException {
+        var invalidPersonId = 1L;
+
+        when(personRepository.findById(invalidPersonId))
+                .thenReturn(Optional.ofNullable(any(Person.class)));
+
+        assertThrows(PersonNotFoundException.class, () -> personService.delete(invalidPersonId));
+    }
+
     private MessageResponseDTO createExpectedMessageResponse(Long id) {
         return MessageResponseDTO
                 .builder()
