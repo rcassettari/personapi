@@ -10,6 +10,7 @@ public class PersonUtils {
 
     private static final String FIRST_NAME = "Abner";
     private static final String LAST_NAME = "Silva";
+    private static final String LAST_NAME_UPDATED = "Ricardo Updated";
     private static final String CPF_NUMBER = "605.869.413-20";
     private static final long PERSON_ID = 1L;
     public static final LocalDate BIRTH_DATE = LocalDate.of(2010, 10, 1);
@@ -29,6 +30,28 @@ public class PersonUtils {
                 .id(PERSON_ID)
                 .firstName(FIRST_NAME)
                 .lastName(LAST_NAME)
+                .cpf(CPF_NUMBER)
+                .birthDate(LocalDate.parse("2010-10-01"))
+                .phones(Collections.singletonList(PhoneUtils.createExpectedPhoneDTO()))
+                .build();
+    }
+
+    public static Person createFakeExpectedUpdatedPerson() {
+        return Person.builder()
+                .id(PERSON_ID)
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME_UPDATED)
+                .cpf(CPF_NUMBER)
+                .birthDate(LocalDate.parse("2010-10-01"))
+                .phones(Collections.singletonList(PhoneUtils.createFakeEntity()))
+                .build();
+    }
+
+    public static PersonDTO createFakeExpectedUpdatedPersonDTO() {
+        return PersonDTO.builder()
+                .id(PERSON_ID)
+                .firstName(FIRST_NAME)
+                .lastName(LAST_NAME_UPDATED)
                 .cpf(CPF_NUMBER)
                 .birthDate(LocalDate.parse("2010-10-01"))
                 .phones(Collections.singletonList(PhoneUtils.createExpectedPhoneDTO()))

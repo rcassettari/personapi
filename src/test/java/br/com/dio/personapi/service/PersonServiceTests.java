@@ -112,6 +112,30 @@ public class PersonServiceTests {
         assertEquals(expectedPeopleDTOList.get(0).getId(), personDTO.getId());
     }
 
+    @Test
+    void testGivenValidPersonIdAndUpdateInfoThenReturnSuccessOnUpdate() throws PersonNotFoundException {
+        var updatedPersonId = 2L;
+
+        PersonDTO updatePersonDTORequest = createFakeExpectedUpdatedPersonDTO();
+        updatePersonDTORequest.setId(updatedPersonId);
+        updatePersonDTORequest.setLastName("Ricardo updated");
+
+        Person expectedPersonToUpdate = createFakeEntity();
+        expectedPersonToUpdate.setId(updatedPersonId);
+
+        Person expectedPersonUpdated = createFakeExpectedUpdatedPerson();
+        expectedPersonUpdated.setId(updatedPersonId);
+        expectedPersonUpdated.setLastName(updatePersonDTORequest.getLastName());
+
+        when(personRepository.findById(updatedPersonId)).thenReturn(Optional.of(expectedPersonUpdated));
+        lenient().when(personMapper.toModel(updatePersonDTORequest)).thenReturn(expectedPersonUpdated);
+        when(personRepository.save(any(Person.class))).thenReturn(expectedPersonUpdated);
+
+        PersonDTO updatedPersonDTO = personService.updateById(updatedPersonId, updatePersonDTORequest);
+
+        assertEquals(updatePersonDTORequest, updatedPersonDTO);
+    }
+
     private MessageResponseDTO createExpectedMessageResponse(Long id) {
         return MessageResponseDTO
                 .builder()
