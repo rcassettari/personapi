@@ -3,7 +3,9 @@ package br.com.dio.personapi.service;
 import br.com.dio.personapi.dto.response.MessageResponseDTO;
 import br.com.dio.personapi.dto.request.PersonDTO;
 import br.com.dio.personapi.entity.Person;
+import br.com.dio.personapi.exception.PersonNotFoundException;
 import br.com.dio.personapi.helper.MessageHelper;
+import br.com.dio.personapi.mapper.PersonMapper;
 import br.com.dio.personapi.repository.PersonRepository;
 import br.com.dio.personapi.service.impl.PersonServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +17,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import java.util.Optional;
+
 import static br.com.dio.personapi.utils.PersonUtils.*;
+import static br.com.dio.personapi.utils.PersonUtils.createFakeExpectedPersonDTO;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -28,6 +33,9 @@ public class PersonServiceTests {
 
     @Mock
     private static PersonRepository personRepository;
+
+    @Mock
+    private PersonMapper personMapper;
 
     @InjectMocks
     private static PersonService personService;
@@ -47,7 +55,7 @@ public class PersonServiceTests {
     }
 
     @Test
-    void testGivenPersonDTOThenReturnSavedMessage() {
+    void testGivenPersonDTOThenReturnSavedPerson() {
         PersonDTO personDTO = createFakeDTO();
         Person expectedSavedPerson = createFakeEntity();
         PersonDTO expectedSavedPersonDTO = createFakeExpectedPersonDTO();
@@ -55,6 +63,29 @@ public class PersonServiceTests {
         when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
         PersonDTO savedPerson = personService.createPerson(personDTO);
         assertEquals(expectedSavedPersonDTO, savedPerson);
+    }
+
+    @Test
+    void testGivenValidPersonIdThenReturnThisPerson() throws PersonNotFoundException {
+
+        PersonDTO personDTO = createFakeDTO();
+        Person expectedSavedPerson = createFakeEntity();
+        PersonDTO expectedSavedPersonDTO = createFakeExpectedPersonDTO();
+
+        when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
+        PersonDTO savedPerson = personService.createPerson(personDTO);
+
+        PersonDTO expectedPersonDTO = createFakeExpectedPersonDTO();
+        expectedPersonDTO.setId(expectedSavedPerson.getId());
+
+        when(personRepository.findById(expectedSavedPerson.getId())).thenReturn(Optional.of(expectedSavedPerson));
+
+        PersonDTO personDTOGetOne = personService.findById(expectedSavedPerson.getId());
+
+        assertEquals(expectedPersonDTO, personDTOGetOne);
+
+        assertEquals(expectedSavedPerson.getId(), personDTOGetOne.getId());
+        assertEquals(expectedSavedPerson.getFirstName(), personDTOGetOne.getFirstName());
     }
 
     private MessageResponseDTO createExpectedMessageResponse(Long id) {
