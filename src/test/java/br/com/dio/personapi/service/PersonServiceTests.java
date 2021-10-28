@@ -150,6 +150,17 @@ public class PersonServiceTests {
         assertThrows(PersonNotFoundException.class, () -> personService.updateById(invalidPersonId, updatePersonDTORequest));
     }
 
+    @Test
+    void testGivenValidPersonIdThenReturnSuccessOnDelete() throws PersonNotFoundException {
+        var deletedPersonId = 1L;
+        Person expectedPersonToDelete = createFakeEntity();
+
+        when(personRepository.findById(deletedPersonId)).thenReturn(Optional.of(expectedPersonToDelete));
+        personService.delete(deletedPersonId);
+
+        verify(personRepository, times(1)).deleteById(deletedPersonId);
+    }
+
     private MessageResponseDTO createExpectedMessageResponse(Long id) {
         return MessageResponseDTO
                 .builder()
