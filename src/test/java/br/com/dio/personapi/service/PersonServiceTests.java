@@ -136,6 +136,20 @@ public class PersonServiceTests {
         assertEquals(updatePersonDTORequest, updatedPersonDTO);
     }
 
+    @Test
+    void testGivenInvalidPersonIdAndUpdateInfoThenThrowExceptionOnUpdate() throws PersonNotFoundException {
+        var invalidPersonId = 1L;
+
+        PersonDTO updatePersonDTORequest = createFakeDTO();
+        updatePersonDTORequest.setId(invalidPersonId);
+        updatePersonDTORequest.setLastName("Ricardo updated");
+
+        when(personRepository.findById(invalidPersonId))
+                .thenReturn(Optional.ofNullable(any(Person.class)));
+
+        assertThrows(PersonNotFoundException.class, () -> personService.updateById(invalidPersonId, updatePersonDTORequest));
+    }
+
     private MessageResponseDTO createExpectedMessageResponse(Long id) {
         return MessageResponseDTO
                 .builder()
