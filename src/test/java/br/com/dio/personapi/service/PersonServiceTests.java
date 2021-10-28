@@ -88,6 +88,15 @@ public class PersonServiceTests {
         assertEquals(expectedSavedPerson.getFirstName(), personDTOGetOne.getFirstName());
     }
 
+    @Test
+    void testGivenInvalidPersonIdThenThrowException() {
+        var invalidPersonId = 1L;
+        when(personRepository.findById(invalidPersonId))
+                .thenReturn(Optional.ofNullable(any(Person.class)));
+
+        assertThrows(PersonNotFoundException.class, () -> personService.findById(invalidPersonId));
+    }
+
     private MessageResponseDTO createExpectedMessageResponse(Long id) {
         return MessageResponseDTO
                 .builder()
